@@ -8,10 +8,8 @@ const Koa = require('koa'),
 const config = require('./src/config'),
       app = new Koa()
 
-// CORS: Always enable on production
-if (process.env.NODE_ENV === 'production') {
-  app.use(cors(config.CORS));
-}
+// CORS: Allow all hosts if not production mode
+app.use(cors(process.env.NODE_ENV === 'production' ? config.CORS : null));
 
 // Set up Mongoose
 mongoose.connect(config.DB_URL);
